@@ -40,8 +40,8 @@ def welcome():
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/station<br/>"
         f"/api/v1.0/tobs<br/>"
-        f"/api/v1.0/<start><br/>"
-        f"/api/v1.0/<start>/<end>"
+        f"/api/v1.0/start<br/>"
+        f"/api/v1.0/start/end"
     )
 
 
@@ -53,7 +53,7 @@ def precipitation():
     year_ago = dt.date(2017,8,23) - dt.timedelta(days=365)
 
     prcp_query = session.query(Measurement.date, Measurement.prcp).\
-        filter(Measurement.date>year_ago).\
+        filter(Measurement.date>=year_ago).\
         order_by(Measurement.date.desc()).all()
 
     session.close()
@@ -77,6 +77,7 @@ def stations():
     # Convert list of tuples into normal list
     all_stations = list(np.ravel(st))
     return jsonify(all_stations)
+
 @app.route("/api/v1.0/tobs")
 def tobs():
     session = Session(engine)
