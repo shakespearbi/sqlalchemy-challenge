@@ -40,8 +40,8 @@ def welcome():
         f"/api/v1.0/precipitation<br/>"
         f"/api/v1.0/station<br/>"
         f"/api/v1.0/tobs<br/>"
-        f"/api/v1.0/start<br/>"
-        f"/api/v1.0/start/end"
+        f"/api/v1.0/temp/start<br/>"
+        f"/api/v1.0/temp/start/end"
     )
 
 
@@ -98,7 +98,7 @@ def tobs():
     yr_ago_tobs = list(np.ravel(tobs_query))
     return jsonify(yr_ago_tobs)
 
-@app.route("/api/v1.0/<start>")
+@app.route("/api/v1.0/temp/<start>")
 def stats1(start):
     session = Session(engine)
     low_temp = func.min(Measurement.tobs)
@@ -115,7 +115,7 @@ def stats1(start):
     calc_stat1 = list(np.ravel(first_query))
     return jsonify(calc_stat1)
     
-@app.route("/api/v1.0/<start>/<end>")
+@app.route("/api/v1.0/temp/<start>/<end>")
 def stats2(start,end):
     session = Session(engine)
     low_temp = func.min(Measurement.tobs)
